@@ -6,6 +6,7 @@ import rw.ac.auca.sprindapi.dao.StudentDao;
 import rw.ac.auca.sprindapi.model.Student;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @Service
 public class StudentServiceImp implements StudentService{
@@ -13,12 +14,12 @@ public class StudentServiceImp implements StudentService{
     private StudentDao dao;
     @Override
     public Student newStudent(Student student) {
-        return null;
+        return dao.save(student);
     }
 
     @Override
     public Student getStudent(UUID id) {
-        return null;
+        return dao.findById(id).orElse(null);
     }
 
     @Override
@@ -28,7 +29,16 @@ public class StudentServiceImp implements StudentService{
 
     @Override
     public Student deleteStudent(UUID id) {
-        return null;
+        Optional<Student> studentOptional= dao.findById(id);
+        if(studentOptional.isPresent()){
+            Student studentToDelete=studentOptional.get();
+
+                   dao.delete(studentToDelete);
+            return studentToDelete;
+        }else {
+            return null;
+        }
+
     }
 
     @Override
@@ -38,6 +48,6 @@ public class StudentServiceImp implements StudentService{
 
     @Override
     public List<Student> getallStudent() {
-        return null;
+        return dao.findAll();
     }
 }
