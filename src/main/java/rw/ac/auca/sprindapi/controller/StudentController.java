@@ -32,6 +32,16 @@ public class StudentController {
         return ResponseEntity.ok(deleteStudent);
 
     }
+    @PutMapping("/updateStudent/{uuid}")
+    public ResponseEntity<Student> updatesStudent(@PathVariable UUID uuid,@RequestBody Student student){
+        Student updateStudent=studentService.updateStudent(uuid,student);
+        if(updateStudent!=null){
+            return new ResponseEntity<>(updateStudent,HttpStatus.OK);
+        }else{
+            return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
 
 
 }

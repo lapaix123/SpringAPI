@@ -24,7 +24,19 @@ public class StudentServiceImp implements StudentService{
 
     @Override
     public Student updateStudent(UUID id, Student student) {
-        return null;
+        Optional<Student> studentOptional=dao.findById(id);
+        if(studentOptional.isPresent()){
+            Student studentToUpdate=studentOptional.get();
+            studentToUpdate.setStudentId(student.getStudentId());
+            studentToUpdate.setFirstName(student.getFirstName());
+            studentToUpdate.setLastName(student.getLastName());
+            studentToUpdate.setEmail(student.getEmail());
+            studentToUpdate.setAddress(student.getAddress());
+            return dao.save(studentToUpdate);
+        }else {
+            return null;
+        }
+
     }
 
     @Override
